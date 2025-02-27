@@ -165,7 +165,7 @@ a:hover{
 
     .slogam-2{
         font-family:concert one;
-        font-size:10px;
+        font-size:14px;
         color: #f0f8ff;
         margin-left:5%;
     }
@@ -173,6 +173,7 @@ a:hover{
     .side-left{
         float: left;
         margin-left:5%;
+        margin-right:5%;
         background-color:none;
         width:auto;
     }
@@ -220,8 +221,7 @@ a:hover{
     }
 
 
-    burger-banner{
-        width:-40px;
-        height:-40px;
+    #burger-image{
+        width:70%; 
     }
 }
