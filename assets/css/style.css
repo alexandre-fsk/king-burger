@@ -151,5 +151,77 @@ a:hover{
 }
 
 
+/* responsive */
+
+@media(width<=360px){
+    .slogam-1{
+        font-family:concert one;
+        font-size:20px;
+        color: #f0f8ff;
+        margin-left:5%;
+        margin-top:-5%;
+        width:auto;
+    }
+
+    .slogam-2{
+        font-family:concert one;
+        font-size:10px;
+        color: #f0f8ff;
+        margin-left:5%;
+    }
+
+    .side-left{
+        float: left;
+        margin-left:5%;
+        background-color:none;
+        width:auto;
+    }
+
+    .side-right{
+        float: right;
+        margin-right:5%;
+    }
+
+    .opcoes{
+        width:100px;
+        height:30px;
+        background-color:transparent;
+        font-family:concert one;
+        font-size:18px;
+        color:#ff8a14;
+        outline:none;
+        border-style: solid;
+        border-color: #ff8a14;
+        margin-left:5%;
+        box-shadow:0.5px 0.5px 0.5px 0.5px rgb(128, 128, 128,0.3);
+    
+    }
+
+    .opcoes:hover{
+        width:98px;
+        height:28px;
+        background-color:transparent;
+        font-family:concert one;
+        font-size:18px;
+        color:#ff8a14;
+        outline:none;
+        border-style: solid;
+        border-color: #ff8a14;
+        opacity:0.5;
+        margin-left:5%;
+        box-shadow:0.5px 0.5px 0.5px 0.5px rgb(128, 128, 128,0.3);
+    
+    }
+
+    .banner{
+        background-color:transparent;
+        padding-top:2%;
+        display: flex;  
+    }
 
 
+    burger-banner{
+        width:-40px;
+        height:-40px;
+    }
+}
