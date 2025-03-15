@@ -239,7 +239,7 @@ header .menu-icon div{
 }
 
 
- @media screen and (max-width:1024px) and (min-width: 425px){
+ @media screen and (max-width:1024px) and (min-width: 340px){
     header nav{
         display: none;
     }
