@@ -78,6 +78,7 @@ header nav a:hover{
     border-style: solid;
     padding:15px 30px;
     display: block;
+    cursor: pointer;
     font-family:'Courier New', Courier, monospace ;
 }
 
@@ -91,6 +92,7 @@ header nav a:hover{
     border-style: solid;
     padding:15px 30px;
     display: block;
+    cursor: pointer;
     background:linear-gradient(90deg,#ff8a14,#1f2124);
     font-family:'Courier New', Courier, monospace ;
 }
@@ -168,6 +170,7 @@ header .menu-icon div{
     font-size:18px ;
     border-color: #ff8a14;
     background-color:transparent;
+    cursor: pointer;
     font-family: 'Courier New', Courier, monospace;
 
 }
@@ -182,6 +185,7 @@ header .menu-icon div{
     border-color: #ff8a14;
     background-color:transparent;
     font-family: 'Courier New', Courier, monospace;
+    cursor: pointer;
     background:linear-gradient(90deg,#ff8a14,#1f2124);
 
 }
@@ -220,18 +224,61 @@ header .menu-icon div{
     font-size:22px;
     border-radius:5px;
     font-family: 'Courier New', Courier, monospace;
-    box-shadow:2px 2px 2px 2px rgb(0, 0, 0,0.2);
-    
+    box-shadow:2px 2px 2px 2px rgb(0, 0, 0,0.2);  
+}
+
+.search input{
+    background-image: url('../images/searchIcon.png');
+    background-repeat: no-repeat;
+    background-position:20px center;
+    padding-left:60px;
+}
+
+.search select{
+    border-right: 22px solid transparent;
 }
 
 
-@media(max-width:860px){
+@media(max-width:360px){
     header nav{
         display: none;
+    }
+
+    .banner .container{
+        flex-direction: column;
+    }
+
+    .banner .left-side{
+        text-align: center;
+        padding-bottom:30px;
+    }
+
+    .banner .right-side{
+        padding-bottom:30px;
+    }
+
+    .banner .right-side img{
+        height:300px;
     }
 
     header .menu{
         display: flex;
     }
+
+    .search{
+        padding-bottom:30px;
+    }
+
+    .search-title{
+        text-align: center;
+    }
+
+    .search-sides{
+        flex-direction: column;
+        gap:20px;
+    }
 }
+
+
+
 
