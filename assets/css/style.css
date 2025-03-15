@@ -239,7 +239,7 @@ header .menu-icon div{
 }
 
 
-@media(max-width:360px){
+ @media screen and (max-width:1024px) and (min-width: 425px){
     header nav{
         display: none;
     }
@@ -259,6 +259,11 @@ header .menu-icon div{
 
     .banner .right-side img{
         height:300px;
+    }
+
+    .banner h1{
+        font-size:38px;
+        line-height:50px;
     }
 
     header .menu{
