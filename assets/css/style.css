@@ -278,10 +278,20 @@ header .menu-icon div{
         text-align: center;
     }
 
-    .search-sides{
+    .search .search-sides{
         flex-direction: column;
+        font-size:18px;
         gap:20px;
     }
+
+    .search input{
+        font-size:17px;
+    }
+
+    .search select{
+        font-size:17px;
+    }
+
 }
 
 
