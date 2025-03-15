@@ -25,7 +25,7 @@ body {
     margin:auto;
     max-width:1200px;
     padding:0 20px;
-    background-color: rgb(128, 128, 128, 0.2);  
+    background-color:none;  
     /* display: flex; */
 }
 
@@ -33,7 +33,7 @@ body {
 header .container{
     display: flex;
     align-items: center;
-    padding:0 46px;
+    padding:46px 20px;
     gap:50px;
 }
 
@@ -49,4 +49,150 @@ header nav .left-side{
     gap:50px;
 }
 
+header nav li{
+    margin:0 30px;
+}
+
+header nav a{
+    color:#ff8a14;
+    font-size:22px;
+    text-transform: capitalize;
+}
+
+header nav a:hover{
+    color:rgb(255, 138, 20,0.2);
+    font-size:21px;
+    text-transform: capitalize;
+}
+
+/* button */
+
+ .btn{
+    width:200px;
+    height:60px;
+    color: #ff8a14;
+    background-color:transparent;
+    font-size:18px;
+    border-color: #ff8a14;
+    border-radius:5px;
+    border-style: solid;
+    padding:15px 30px;
+    display: block;
+    font-family:'Courier New', Courier, monospace ;
+}
+
+.btn:hover{
+    width:200px;
+    height:60px;
+    color:#f0f8ff;
+    border-radius:5px;
+    font-size:18px;
+    border-color: #ff8a14;
+    border-style: solid;
+    padding:15px 30px;
+    display: block;
+    background:linear-gradient(90deg,#ff8a14,#1f2124);
+    font-family:'Courier New', Courier, monospace ;
+}
+
+/* responsividade */
+
+header .menu{
+    display:none;
+    justify-content: flex-end;
+    flex:1;
+}
+
+header .menu-icon{
+    width:32px;
+    height:32px;
+    display: flex;
+    cursor: pointer;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+header .menu-icon div{
+    height:8px;
+    background-color: #ff8a14;
+}
+
+
+/* banner */
+
+.banner .container{
+    display:flex;
+}
+
+.banner .left-side,
+.banner .right-side{
+    flex:1;
+}
+
+.banner .left-side{
+    padding-bottom:150px;
+    
+}
+
+.banner .right-side {
+    text-align: center;
+    
+}
+
+.banner .right-side img{
+    width:auto;
+    height:600px;
+    
+}
+
+.banner h1{
+    font-family: concert one;
+    font-weight: 800;
+    font-size:70px;
+    color: #f0f8ff;
+}
+
+.banner p{
+    font-family: concert one;
+    line-height:26px;
+    color: #f0f8ff;
+    margin:40px 0;
+}
+
+.banner .pedido{
+    width:250px;
+    height:70px;
+    color:#ff8a14;
+    border-style:solid;
+    border-radius:5px;
+    font-size:18px ;
+    border-color: #ff8a14;
+    background-color:transparent;
+    font-family: 'Courier New', Courier, monospace;
+
+}
+
+.banner .pedido:hover{
+    width:250px;
+    height:70px;
+    color:#f0f8ff;
+    border-style:solid;
+    border-radius:5px;
+    font-size:18px ;
+    border-color: #ff8a14;
+    background-color:transparent;
+    font-family: 'Courier New', Courier, monospace;
+    background:linear-gradient(90deg,#ff8a14,#1f2124);
+
+}
+
+@media(max-width:860px){
+    header nav{
+        display: none;
+    }
+
+    header .menu{
+        display: flex;
+    }
+}
 
