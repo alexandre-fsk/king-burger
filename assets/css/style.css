@@ -185,6 +185,45 @@ header .menu-icon div{
     background:linear-gradient(90deg,#ff8a14,#1f2124);
 
 }
+/* search */
+.search{
+    background-color:#191919;
+    padding:80px 0;
+    margin-top:-100px;
+}
+
+.search .search-title{
+    font-family:concert one;
+    font-size:32px;
+    color: #f0f8ff;
+}
+
+.search .search-sides{
+    display: flex;
+    margin-top:30px;
+    gap:100px;
+}
+
+.search .left-side,
+.search .right-side{
+    flex:1;
+}
+
+.search input,
+.search select{
+    width:100%;
+    color: #f0f8ff;
+    background-color:#2b2b2b;
+    padding:20px;
+    border-style: none;
+    outline:0;
+    font-size:22px;
+    border-radius:5px;
+    font-family: 'Courier New', Courier, monospace;
+    box-shadow:2px 2px 2px 2px rgb(0, 0, 0,0.2);
+    
+}
+
 
 @media(max-width:860px){
     header nav{
