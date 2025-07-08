@@ -1,117 +1,431 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-    <link rel="stylesheet" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Concert+One&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
-        rel="stylesheet">
+    <meta name="description" content="King Burger - Os melhores hambúrgueres artesanais da cidade. Sabor incomparável e qualidade premium.">
+    <meta name="keywords" content="hambúrguer, burger, fast food, delivery, king burger">
+    <meta name="author" content="King Burger">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://kingburger.com/">
+    <meta property="og:title" content="King Burger - O Rei dos Hambúrgueres">
+    <meta property="og:description" content="Os melhores hambúrgueres artesanais da cidade. Sabor incomparável e qualidade premium.">
+    <meta property="og:image" content="assets/images/heroBurger.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://kingburger.com/">
+    <meta property="twitter:title" content="King Burger - O Rei dos Hambúrgueres">
+    <meta property="twitter:description" content="Os melhores hambúrgueres artesanais da cidade. Sabor incomparável e qualidade premium.">
+    <meta property="twitter:image" content="assets/images/heroBurger.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/images/burguer.png">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Styles -->
     <link rel="stylesheet" href="assets/css/style.css">
-    <title>King-Burguer</title>
+    
+    <title>King Burger - O Rei dos Hambúrgueres</title>
 </head>
 
 <body>
-
-    <header>
+    <!-- Header -->
+    <header class="header" id="header">
         <div class="container">
-            <div class="logo">
-                <a href="index.html">
-                    <img src="assets/images/burguer.png" alt="logo-burguer" width="90px">
-                </a>
-            </div>
-            <nav>
-                <ul class="left-side">
-                    <li>
-                        <a href="">inicio</a>
-                    </li>
-                    <li>
-                        <a href="">burguers</a>
-                    </li>
-                    <li>
-                        <a href="">contatos</a>
-                    </li>
-                </ul>
-                <div class="right-side">
-                    <!-- <a href="" class="button">fazer pedido</a> -->
-                    <button class="btn">Conta</button>
+            <div class="header__content">
+                <!-- Logo -->
+                <div class="header__logo">
+                    <a href="#home" aria-label="King Burger - Página inicial">
+                        <img src="assets/images/burguer.png" alt="King Burger Logo" width="60" height="60">
+                        <span class="logo-text">King Burger</span>
+                    </a>
                 </div>
-            </nav>
-            <div class="menu">
-                <div class="menu-icon">
-                    <div></div>
-                    <div></div>
-                    <div></div>
+
+                <!-- Navigation -->
+                <nav class="header__nav" role="navigation">
+                    <ul class="nav__list">
+                        <li class="nav__item">
+                            <a href="#home" class="nav__link">Início</a>
+                        </li>
+                        <li class="nav__item">
+                            <a href="#menu" class="nav__link">Cardápio</a>
+                        </li>
+                        <li class="nav__item">
+                            <a href="#about" class="nav__link">Sobre</a>
+                        </li>
+                        <li class="nav__item">
+                            <a href="#contact" class="nav__link">Contato</a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <!-- Actions -->
+                <div class="header__actions">
+                    <button class="btn btn--secondary" id="searchToggle" aria-label="Pesquisar">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <button class="btn btn--primary" id="orderBtn">
+                        <i class="fas fa-shopping-cart"></i>
+                        Fazer Pedido
+                    </button>
+                    <button class="btn btn--account" id="accountBtn">
+                        <i class="fas fa-user"></i>
+                        Minha Conta
+                    </button>
                 </div>
+
+                <!-- Mobile Menu Toggle -->
+                <button class="header__menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-expanded="false">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
             </div>
-            
-            
         </div>
     </header>
 
-    <section class="banner">
+    <!-- Search Bar -->
+    <div class="search-bar" id="searchBar">
         <div class="container">
-            <div class="left-side">
-                <h1>O melhor você encontra aqui!!!</h1>
-                <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum error cumque distinctio quasi a saepe,
-                    ullam! Animi!
-                </p>
-                <button class="pedido">Fazer pedido</button>
-            </div>
-            <div class="right-side">
-                <img src="assets/images/heroBurger.png" alt="burguer-banner" width="">
+            <div class="search-bar__content">
+                <div class="search-bar__input-group">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="search" placeholder="Buscar hambúrguer..." class="search-bar__input" id="searchInput">
+                </div>
+                <select class="search-bar__select" id="categorySelect">
+                    <option value="">Todas as categorias</option>
+                    <option value="classic">Clássicos</option>
+                    <option value="premium">Premium</option>
+                    <option value="vegetarian">Vegetariano</option>
+                    <option value="spicy">Picantes</option>
+                </select>
+                <button class="search-bar__close" id="searchClose" aria-label="Fechar pesquisa">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
         </div>
-    </section>
-    <section class="search">
-        <div class="container">
-            <div class="search-title">Pesquise o seu <br> burguer favorito!</div>
-            <div class="search-sides">
-                <div class="left-side">
-                    <input type="search" placeholder="nome do burguer:">
-                </div>
-                <div class="right-side">
-                    <select>
-                        <option value="">selecionar categoria:</option>
-                        <option value="#">x-frango</option>
-                        <option value="#">x-bacon</option>
-                        <option value="#">x-tudo completo</option>
-                    </select>
+    </div>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="hero" id="home">
+            <div class="container">
+                <div class="hero__content">
+                    <div class="hero__text">
+                        <h1 class="hero__title">
+                            O <span class="highlight">Melhor</span> Hambúrguer<br>
+                            Você Encontra Aqui!
+                        </h1>
+                        <p class="hero__description">
+                            Descubra o sabor autêntico dos nossos hambúrgueres artesanais. 
+                            Feitos com ingredientes frescos e receitas exclusivas que vão 
+                            surpreender seu paladar.
+                        </p>
+                        <div class="hero__actions">
+                            <button class="btn btn--primary btn--large" id="heroOrderBtn">
+                                <i class="fas fa-utensils"></i>
+                                Fazer Pedido
+                            </button>
+                            <button class="btn btn--outline btn--large" id="menuBtn">
+                                <i class="fas fa-book-open"></i>
+                                Ver Cardápio
+                            </button>
+                        </div>
+                        <div class="hero__stats">
+                            <div class="stat">
+                                <span class="stat__number">500+</span>
+                                <span class="stat__label">Clientes Satisfeitos</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat__number">50+</span>
+                                <span class="stat__label">Sabores Únicos</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat__number">4.9</span>
+                                <span class="stat__label">Avaliação Média</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hero__image">
+                        <img src="assets/images/heroBurger.png" alt="Hambúrguer King Burger" width="500" height="500">
+                        <div class="hero__badge">
+                            <i class="fas fa-star"></i>
+                            <span>Mais Vendido</span>
+                        </div>
+                    </div>
                 </div>
             </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features">
+            <div class="container">
+                <div class="features__grid">
+                    <div class="feature">
+                        <div class="feature__icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h3 class="feature__title">Entrega Rápida</h3>
+                        <p class="feature__description">Entregamos em até 30 minutos ou seu dinheiro de volta</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature__icon">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <h3 class="feature__title">Ingredientes Frescos</h3>
+                        <p class="feature__description">Selecionamos apenas os melhores ingredientes para você</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature__icon">
+                            <i class="fas fa-medal"></i>
+                        </div>
+                        <h3 class="feature__title">Qualidade Premium</h3>
+                        <p class="feature__description">Compromisso com a excelência em cada hambúrguer</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Menu Preview Section -->
+        <section class="menu-preview" id="menu">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Nossos Hambúrgueres</h2>
+                    <p class="section-subtitle">Descubra nossa seleção de hambúrgueres artesanais</p>
+                </div>
+                
+                <div class="menu-grid">
+                    <div class="menu-item">
+                        <div class="menu-item__image">
+                            <img src="assets/images/burguer.png" alt="Classic Burger" width="300" height="200">
+                            <div class="menu-item__badge">Mais Popular</div>
+                        </div>
+                        <div class="menu-item__content">
+                            <h3 class="menu-item__title">Classic King</h3>
+                            <p class="menu-item__description">Hambúrguer clássico com queijo, alface, tomate e molho especial</p>
+                            <div class="menu-item__price">R$ 25,90</div>
+                            <button class="btn btn--primary btn--small">Adicionar</button>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="menu-item__image">
+                            <img src="assets/images/burguer.png" alt="Bacon King" width="300" height="200">
+                            <div class="menu-item__badge menu-item__badge--spicy">Picante</div>
+                        </div>
+                        <div class="menu-item__content">
+                            <h3 class="menu-item__title">Bacon King</h3>
+                            <p class="menu-item__description">Hambúrguer com bacon crocante, queijo cheddar e molho barbecue</p>
+                            <div class="menu-item__price">R$ 32,90</div>
+                            <button class="btn btn--primary btn--small">Adicionar</button>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="menu-item__image">
+                            <img src="assets/images/burguer.png" alt="Veggie King" width="300" height="200">
+                            <div class="menu-item__badge menu-item__badge--veggie">Vegetariano</div>
+                        </div>
+                        <div class="menu-item__content">
+                            <h3 class="menu-item__title">Veggie King</h3>
+                            <p class="menu-item__description">Hambúrguer vegetariano com grão-de-bico, quinoa e vegetais frescos</p>
+                            <div class="menu-item__price">R$ 28,90</div>
+                            <button class="btn btn--primary btn--small">Adicionar</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="menu-actions">
+                    <button class="btn btn--outline btn--large">Ver Cardápio Completo</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="about" id="about">
+            <div class="container">
+                <div class="about__content">
+                    <div class="about__text">
+                        <h2 class="section-title">Nossa História</h2>
+                        <p class="about__description">
+                            Fundada em 2020, a King Burger nasceu da paixão por hambúrgueres artesanais. 
+                            Nossa missão é oferecer a melhor experiência gastronômica, combinando 
+                            ingredientes frescos, técnicas tradicionais e inovação culinária.
+                        </p>
+                        <div class="about__features">
+                            <div class="about__feature">
+                                <i class="fas fa-check"></i>
+                                <span>Ingredientes 100% naturais</span>
+                            </div>
+                            <div class="about__feature">
+                                <i class="fas fa-check"></i>
+                                <span>Receitas exclusivas</span>
+                            </div>
+                            <div class="about__feature">
+                                <i class="fas fa-check"></i>
+                                <span>Atendimento personalizado</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="about__image">
+                        <img src="assets/images/burguer.png" alt="Nossa cozinha" width="400" height="300">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="contact" id="contact">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Entre em Contato</h2>
+                    <p class="section-subtitle">Estamos aqui para atender você</p>
+                </div>
+                
+                <div class="contact__content">
+                    <div class="contact__info">
+                        <div class="contact__item">
+                            <div class="contact__icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="contact__details">
+                                <h3>Endereço</h3>
+                                <p>Rua das Delícias, 123<br>Centro - São Paulo, SP</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact__item">
+                            <div class="contact__icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="contact__details">
+                                <h3>Telefone</h3>
+                                <p>(11) 99999-9999</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact__item">
+                            <div class="contact__icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="contact__details">
+                                <h3>Email</h3>
+                                <p>contato@kingburger.com</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact__item">
+                            <div class="contact__icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="contact__details">
+                                <h3>Horário de Funcionamento</h3>
+                                <p>Segunda a Domingo<br>11h às 23h</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="contact__form">
+                        <form class="form" id="contactForm">
+                            <div class="form__group">
+                                <input type="text" id="name" name="name" placeholder="Seu nome" required>
+                            </div>
+                            <div class="form__group">
+                                <input type="email" id="email" name="email" placeholder="Seu email" required>
+                            </div>
+                            <div class="form__group">
+                                <input type="tel" id="phone" name="phone" placeholder="Seu telefone">
+                            </div>
+                            <div class="form__group">
+                                <textarea id="message" name="message" placeholder="Sua mensagem" rows="5" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn--primary btn--large">Enviar Mensagem</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__content">
+                <div class="footer__section">
+                    <div class="footer__logo">
+                        <img src="assets/images/burguer.png" alt="King Burger" width="50" height="50">
+                        <span>King Burger</span>
+                    </div>
+                    <p class="footer__description">
+                        O melhor hambúrguer artesanal da cidade. 
+                        Sabor incomparável e qualidade premium.
+                    </p>
+                    <div class="footer__social">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer__section">
+                    <h3>Links Rápidos</h3>
+                    <ul class="footer__links">
+                        <li><a href="#home">Início</a></li>
+                        <li><a href="#menu">Cardápio</a></li>
+                        <li><a href="#about">Sobre</a></li>
+                        <li><a href="#contact">Contato</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer__section">
+                    <h3>Cardápio</h3>
+                    <ul class="footer__links">
+                        <li><a href="#">Hambúrgueres</a></li>
+                        <li><a href="#">Acompanhamentos</a></li>
+                        <li><a href="#">Bebidas</a></li>
+                        <li><a href="#">Sobremesas</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer__section">
+                    <h3>Suporte</h3>
+                    <ul class="footer__links">
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Política de Privacidade</a></li>
+                        <li><a href="#">Termos de Uso</a></li>
+                        <li><a href="#">Trabalhe Conosco</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer__bottom">
+                <p>&copy; 2024 King Burger. Todos os direitos reservados.</p>
+                <p>Desenvolvido com <i class="fas fa-heart"></i> para você</p>
+            </div>
         </div>
-    </section>
+    </footer>
 
-    
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop" aria-label="Voltar ao topo">
+        <i class="fas fa-arrow-up"></i>
+    </button>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    <!-- Scripts -->
+    <script src="assets/js/index.js"></script>
+</body>
+</html> 
 
 
 
