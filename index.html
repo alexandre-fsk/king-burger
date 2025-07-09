@@ -1,260 +1,44 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="King Burger - Os melhores hambúrgueres artesanais da cidade. Sabor incomparável e qualidade premium.">
+    <meta name="description"
+        content="King Burger - Os melhores hambúrgueres artesanais da cidade. Sabor incomparável e qualidade premium.">
     <meta name="keywords" content="hambúrguer, burger, fast food, delivery, king burger">
     <meta name="author" content="King Burger">
     <!-- Open Graph /Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://kingburger.com/">
     <meta property="og:title" content="King Burger - O Rei dos Hambúrgueres">
-    <meta property="og:description" content="Os melhores hambúrgueres artesanais da cidade. Sabor incomparável e qualidade premium.">
+    <meta property="og:description"
+        content="Os melhores hambúrgueres artesanais da cidade. Sabor incomparável e qualidade premium.">
     <meta property="og:image" content="assets/images/heroBurger.png">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://kingburger.com/">
     <meta property="twitter:title" content="King Burger - O Rei dos Hambúrgueres">
-    <meta property="twitter:description" content="Os melhores hambúrgueres artesanais da cidade. Sabor incomparável e qualidade premium.">
+    <meta property="twitter:description"
+        content="Os melhores hambúrgueres artesanais da cidade. Sabor incomparável e qualidade premium.">
     <meta property="twitter:image" content="assets/images/heroBurger.png">
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="assets/images/burguer.png">
-    
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Algolia Search -->
-    <script src="https://cdn.jsdelivr.net/npm/algoliasearch@4.20.0/dist/algoliasearch-lite.umd.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.60.0/dist/instantsearch.production.min.js"></script>
-    
     <!-- Styles -->
     <link rel="stylesheet" href="assets/css/style.css">
-    <style>
-        /* Search Results Styles */
-        .search-results {
-            display: none;
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-            margin-top: 10px;
-            max-height: 500px;
-            overflow-y: auto;
-            z-index: 1000;
-        }
-
-        .search-results__header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 20px;
-            border-bottom: 1px solid #e5e5e5;
-            background: #f8f9fa;
-            border-radius: 8px 8px 0 0;
-        }
-
-        .search-results__count {
-            font-size: 14px;
-            color: #666;
-            font-weight: 500;
-        }
-
-        .search-results__clear {
-            background: none;
-            border: none;
-            color: #dc3545;
-            font-size: 14px;
-            cursor: pointer;
-            padding: 5px 10px;
-            border-radius: 4px;
-            transition: background-color 0.3s ease;
-        }
-
-        .search-results__clear:hover {
-            background-color: #f8d7da;
-        }
-
-        .search-results__grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 15px;
-            padding: 20px;
-        }
-
-        .search-results__empty {
-            text-align: center;
-            padding: 40px 20px;
-            color: #666;
-        }
-
-        .search-results__empty i {
-            font-size: 48px;
-            color: #ddd;
-            margin-bottom: 15px;
-        }
-
-        .search-results__empty h3 {
-            margin: 0 0 10px 0;
-            font-size: 18px;
-            color: #333;
-        }
-
-        .search-results__empty p {
-            margin: 0;
-            font-size: 14px;
-        }
-
-        /* Search Result Item */
-        .search-result-item {
-            display: flex;
-            background: #fff;
-            border: 1px solid #e5e5e5;
-            border-radius: 8px;
-            overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            cursor: pointer;
-        }
-
-        .search-result-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .search-result-item__image {
-            position: relative;
-            width: 120px;
-            height: 80px;
-            flex-shrink: 0;
-        }
-
-        .search-result-item__image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .search-result-item__content {
-            flex: 1;
-            padding: 12px 15px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .search-result-item__title {
-            margin: 0 0 5px 0;
-            font-size: 16px;
-            font-weight: 600;
-            color: #333;
-        }
-
-        .search-result-item__description {
-            margin: 0 0 8px 0;
-            font-size: 13px;
-            color: #666;
-            line-height: 1.4;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .search-result-item__price {
-            font-size: 16px;
-            font-weight: 700;
-            color: #e74c3c;
-            margin-bottom: 8px;
-        }
-
-        /* Badges */
-        .badge {
-            position: absolute;
-            top: 5px;
-            left: 5px;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 10px;
-            font-weight: 600;
-            text-transform: uppercase;
-            color: #fff;
-        }
-
-        .badge--popular {
-            background-color: #f39c12;
-        }
-
-        .badge--spicy {
-            background-color: #e74c3c;
-        }
-
-        .badge--veggie {
-            background-color: #27ae60;
-        }
-
-        /* Button Success State */
-        .btn--success {
-            background-color: #27ae60 !important;
-            color: #fff !important;
-        }
-
-        /* Search Bar Active State */
-        .search-bar.active {
-            display: block;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .search-results__grid {
-                grid-template-columns: 1fr;
-                padding: 15px;
-            }
-            
-            .search-result-item {
-                flex-direction: column;
-            }
-            
-            .search-result-item__image {
-                width: 100%;
-                height: 120px;
-            }
-            
-            .search-results__header {
-                flex-direction: column;
-                gap: 10px;
-                align-items: flex-start;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .search-results {
-                margin-top: 5px;
-                max-height: 400px;
-            }
-            
-            .search-result-item__content {
-                padding: 10px;
-            }
-            
-            .search-result-item__title {
-                font-size: 14px;
-            }
-            
-            .search-result-item__description {
-                font-size: 12px;
-            }
-            
-            .search-result-item__price {
-                font-size: 14px;
-            }
-        }
-    </style>
     
     <title>King Burger - O Rei dos Hambúrgueres</title>
 </head>
@@ -367,8 +151,8 @@
                             Você Encontra Aqui!
                         </h1>
                         <p class="hero__description">
-                            Descubra o sabor autêntico dos nossos hambúrgueres artesanais. 
-                            Feitos com ingredientes frescos e receitas exclusivas que vão 
+                            Descubra o sabor autêntico dos nossos hambúrgueres artesanais.
+                            Feitos com ingredientes frescos e receitas exclusivas que vão
                             surpreender seu paladar.
                         </p>
                         <div class="hero__actions">
@@ -443,7 +227,7 @@
                     <h2 class="section-title">Nossos Hambúrgueres</h2>
                     <p class="section-subtitle">Descubra nossa seleção de hambúrgueres artesanais</p>
                 </div>
-                
+
                 <div class="menu-grid">
                     <div class="menu-item">
                         <div class="menu-item__image">
@@ -452,12 +236,13 @@
                         </div>
                         <div class="menu-item__content">
                             <h3 class="menu-item__title">Classic King</h3>
-                            <p class="menu-item__description">Hambúrguer clássico com queijo, alface, tomate e molho especial</p>
+                            <p class="menu-item__description">Hambúrguer clássico com queijo, alface, tomate e molho
+                                especial</p>
                             <div class="menu-item__price">R$ 25,90</div>
                             <button class="btn btn--primary btn--small">Adicionar</button>
                         </div>
                     </div>
-                    
+
                     <div class="menu-item">
                         <div class="menu-item__image">
                             <img src="assets/images/burguer.png" alt="Bacon King" width="300" height="200">
@@ -465,12 +250,13 @@
                         </div>
                         <div class="menu-item__content">
                             <h3 class="menu-item__title">Bacon King</h3>
-                            <p class="menu-item__description">Hambúrguer com bacon crocante, queijo cheddar e molho barbecue</p>
+                            <p class="menu-item__description">Hambúrguer com bacon crocante, queijo cheddar e molho
+                                barbecue</p>
                             <div class="menu-item__price">R$ 32,90</div>
                             <button class="btn btn--primary btn--small">Adicionar</button>
                         </div>
                     </div>
-                    
+
                     <div class="menu-item">
                         <div class="menu-item__image">
                             <img src="assets/images/burguer.png" alt="Veggie King" width="300" height="200">
@@ -478,13 +264,14 @@
                         </div>
                         <div class="menu-item__content">
                             <h3 class="menu-item__title">Veggie King</h3>
-                            <p class="menu-item__description">Hambúrguer vegetariano com grão-de-bico, quinoa e vegetais frescos</p>
+                            <p class="menu-item__description">Hambúrguer vegetariano com grão-de-bico, quinoa e vegetais
+                                frescos</p>
                             <div class="menu-item__price">R$ 28,90</div>
                             <button class="btn btn--primary btn--small">Adicionar</button>
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="menu-actions">
                     <button class="btn btn--outline btn--large">Ver Cardápio Completo</button>
                 </div>
@@ -498,8 +285,8 @@
                     <div class="about__text">
                         <h2 class="section-title">Nossa História</h2>
                         <p class="about__description">
-                            Fundada em 2020, a King Burger nasceu da paixão por hambúrgueres artesanais. 
-                            Nossa missão é oferecer a melhor experiência gastronômica, combinando 
+                            Fundada em 2020, a King Burger nasceu da paixão por hambúrgueres artesanais.
+                            Nossa missão é oferecer a melhor experiência gastronômica, combinando
                             ingredientes frescos, técnicas tradicionais e inovação culinária.
                         </p>
                         <div class="about__features">
@@ -531,7 +318,7 @@
                     <h2 class="section-title">Entre em Contato</h2>
                     <p class="section-subtitle">Estamos aqui para atender você</p>
                 </div>
-                
+
                 <div class="contact__content">
                     <div class="contact__info">
                         <div class="contact__item">
@@ -540,10 +327,10 @@
                             </div>
                             <div class="contact__details">
                                 <h3>Endereço</h3>
-                                <p>Rua 12 de Maio, 123<br>Centro - Matias Barbosa, MG</p>
+                                <p>Rua das Delícias, 123<br>Centro - São Paulo, SP</p>
                             </div>
                         </div>
-                        
+
                         <div class="contact__item">
                             <div class="contact__icon">
                                 <i class="fas fa-phone"></i>
@@ -554,7 +341,7 @@
                                 <p>(32) 99848-9788</p>
                             </div>
                         </div>
-                        
+
                         <div class="contact__item">
                             <div class="contact__icon">
                                 <i class="fas fa-envelope"></i>
@@ -564,7 +351,7 @@
                                 <p>contato@kingburger.com</p>
                             </div>
                         </div>
-                        
+
                         <div class="contact__item">
                             <div class="contact__icon">
                                 <i class="fas fa-clock"></i>
@@ -575,7 +362,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="contact__form">
                         <form class="form" id="contactForm">
                             <div class="form__group">
@@ -588,7 +375,8 @@
                                 <input type="tel" id="phone" name="phone" placeholder="Seu telefone">
                             </div>
                             <div class="form__group">
-                                <textarea id="message" name="message" placeholder="Sua mensagem" rows="5" required></textarea>
+                                <textarea id="message" name="message" placeholder="Sua mensagem" rows="5"
+                                    required></textarea>
                             </div>
                             <button type="submit" class="btn btn--primary btn--large">Enviar Mensagem</button>
                         </form>
@@ -608,7 +396,7 @@
                         <span>King Burger</span>
                     </div>
                     <p class="footer__description">
-                        O melhor hambúrguer artesanal da cidade. 
+                        O melhor hambúrguer artesanal da cidade.
                         Sabor incomparável e qualidade premium.
                     </p>
                     <div class="footer__social">
@@ -618,7 +406,7 @@
                         <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
                     </div>
                 </div>
-                
+
                 <div class="footer__section">
                     <h3>Links Rápidos</h3>
                     <ul class="footer__links">
@@ -628,7 +416,7 @@
                         <li><a href="#contact">Contato</a></li>
                     </ul>
                 </div>
-                
+
                 <div class="footer__section">
                     <h3>Cardápio</h3>
                     <ul class="footer__links">
@@ -638,7 +426,7 @@
                         <li><a href="#">Sobremesas</a></li>
                     </ul>
                 </div>
-                
+
                 <div class="footer__section">
                     <h3>Suporte</h3>
                     <ul class="footer__links">
@@ -649,10 +437,10 @@
                     </ul>
                 </div>
             </div>
-            
+
             <div class="footer__bottom">
-                <p>&copy; 2025 King Burger. Todos os direitos reservados.</p>
-                <p>Desenvolvido por Alexandre-fsk</p>
+                <p>&copy; 2024 King Burger. Todos os direitos reservados.</p>
+                <p>Desenvolvido com <i class="fas fa-heart"></i> para você</p>
             </div>
         </div>
     </footer>
@@ -665,6 +453,34 @@
 
     <!-- Scripts -->
     <script src="assets/js/index.js"></script>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+=======
+>>>>>>> 5d7d93de29707ab695eef02d4dad75fe0cf8353d
+
+<!-- Back to Top Button -->
+<button class="back-to-top" id="backToTop" aria-label="Voltar ao topo">
+    <i class="fas fa-arrow-up"></i>
+</button>
+
+<!-- Scripts -->
+<script src="assets/js/index.js"></script>
 </body>
 </html> 
 
@@ -682,12 +498,175 @@
 
 
 
-    <!-- Back to Top Button -->
-    <button class="back-to-top" id="backToTop" aria-label="Voltar ao topo">
-        <i class="fas fa-arrow-up"></i>
-    </button>
 
-    <!-- Scripts -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <script src="assets/js/index.js"></script>
 </body>
+
 </html>
