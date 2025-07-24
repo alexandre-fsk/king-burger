@@ -108,514 +108,6 @@ const products = [
     }
 ];
 
-// Shopping Cart Class
-class ShoppingCart {
-    constructor() {
-        this.items = [];
-        this.total = 0;
-        this.init();
-    }
-    
-    init() {
-        // Load cart from localStorage
-        const savedCart = localStorage.getItem('kingBurgerCart');
-        if (savedCart) {
-            const cartData = JSON.parse(savedCart);
-            this.items = cartData.items || [];
-            this.total = cartData.total || 0;
-        }
-        this.updateCartDisplay();
-    }
-    
-    addItem(productId, quantity = 1) {
-        const product = products.find(p => p.id === productId);
-        if (!product) return;
-        
-        const existingItem = this.items.find(item => item.id === productId);
-        
-        if (existingItem) {
-            existingItem.quantity += quantity;
-        } else {
-            this.items.push({
-                id: product.id,
-                name: product.name,
-                price: product.price,
-                image: product.image,
-                quantity: quantity
-            });
-        }
-        
-        this.calculateTotal();
-        this.saveCart();
-        this.updateCartDisplay();
-        this.showCartNotification();
-    }
-    
-    removeItem(productId) {
-        this.items = this.items.filter(item => item.id !== productId);
-        this.calculateTotal();
-        this.saveCart();
-        this.updateCartDisplay();
-    }
-    
-    updateQuantity(productId, quantity) {
-        const item = this.items.find(item => item.id === productId);
-        if (item) {
-            if (quantity <= 0) {
-                this.removeItem(productId);
-            } else {
-                item.quantity = quantity;
-                this.calculateTotal();
-                this.saveCart();
-                this.updateCartDisplay();
-            }
-        }
-    }
-    
-    calculateTotal() {
-        this.total = this.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    }
-    
-    clearCart() {
-        this.items = [];
-        this.total = 0;
-        this.saveCart();
-        this.updateCartDisplay();
-    }
-    
-    saveCart() {
-        localStorage.setItem('kingBurgerCart', JSON.stringify({
-            items: this.items,
-            total: this.total
-        }));
-    }
-    
-    updateCartDisplay() {
-        const cartCount = document.getElementById('cartCount');
-        const totalItems = this.items.reduce((sum, item) => sum + item.quantity, 0);
-        
-        if (cartCount) {
-            cartCount.textContent = totalItems;
-            cartCount.style.display = totalItems > 0 ? 'block' : 'none';
-        }
-    }
-    
-    showCartNotification() {
-        // Create notification element
-        const notification = document.createElement('div');
-        notification.className = 'cart-notification';
-        notification.innerHTML = `
-            <i class="fas fa-check"></i>
-            <span>Item adicionado ao carrinho!</span>
-        `;
-        
-        document.body.appendChild(notification);
-        
-        // Show notification
-        setTimeout(() => {
-            notification.classList.add('show');
-        }, 100);
-        
-        // Remove notification
-        setTimeout(() => {
-            notification.classList.remove('show');
-            setTimeout(() => {
-                document.body.removeChild(notification);
-            }, 300);
-        }, 2000);
-    }
-    
-    getCartItems() {
-        return this.items;
-    }
-    
-    getCartTotal() {
-        return this.total;
-    }
-}
-
-// Menu Modal Class
-class MenuModal {
-    constructor() {
-        this.modal = null;
-        this.init();
-    }
-    
-    init() {
-        this.createModal();
-        this.bindEvents();
-    }
-    
-    createModal() {
-        const modalHTML = `
-            <div class="menu-modal" id="menuModal">
-                <div class="menu-modal__overlay"></div>
-                <div class="menu-modal__content">
-                    <div class="menu-modal__header">
-                        <h2>Cardápio Completo</h2>
-                        <button class="menu-modal__close" id="menuModalClose">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                    <div class="menu-modal__body">
-                        <div class="menu-modal__filters">
-                            <button class="filter-btn active" data-category="all">Todos</button>
-                            <button class="filter-btn" data-category="classic">Clássicos</button>
-                            <button class="filter-btn" data-category="premium">Premium</button>
-                            <button class="filter-btn" data-category="vegetarian">Vegetariano</button>
-                            <button class="filter-btn" data-category="spicy">Picantes</button>
-                        </div>
-                        <div class="menu-modal__grid" id="menuModalGrid">
-                            <!-- Menu items will be populated here -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `;
-        
-        document.body.insertAdjacentHTML('beforeend', modalHTML);
-        this.modal = document.getElementById('menuModal');
-    }
-    
-    bindEvents() {
-        // Close modal
-        const closeBtn = document.getElementById('menuModalClose');
-        const overlay = this.modal.querySelector('.menu-modal__overlay');
-        
-        closeBtn.addEventListener('click', () => this.close());
-        overlay.addEventListener('click', () => this.close());
-        
-        // Filter buttons
-        const filterBtns = this.modal.querySelectorAll('.filter-btn');
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                filterBtns.forEach(b => b.classList.remove('active'));
-                e.target.classList.add('active');
-                this.filterMenu(e.target.dataset.category);
-            });
-        });
-        
-        // Close on escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && this.modal.classList.contains('active')) {
-                this.close();
-            }
-        });
-    }
-    
-    open() {
-        this.populateMenu();
-        this.modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    }
-    
-    close() {
-        this.modal.classList.remove('active');
-        document.body.style.overflow = '';
-    }
-    
-    populateMenu(category = 'all') {
-        const grid = document.getElementById('menuModalGrid');
-        grid.innerHTML = '';
-        
-        let filteredProducts = products;
-        if (category !== 'all') {
-            filteredProducts = products.filter(product => product.category === category);
-        }
-        
-        filteredProducts.forEach(product => {
-            const menuItem = this.createMenuItem(product);
-            grid.appendChild(menuItem);
-        });
-    }
-    
-    filterMenu(category) {
-        this.populateMenu(category);
-    }
-    
-    createMenuItem(product) {
-        const item = document.createElement('div');
-        item.className = 'menu-modal__item';
-        
-        const badges = [];
-        if (product.popular) badges.push('<span class="badge badge--popular">Popular</span>');
-        if (product.spicy) badges.push('<span class="badge badge--spicy">Picante</span>');
-        if (product.vegetarian) badges.push('<span class="badge badge--veggie">Vegetariano</span>');
-        
-        item.innerHTML = `
-            <div class="menu-modal__item-image">
-                <img src="${product.image}" alt="${product.name}" width="200" height="150">
-                ${badges.join('')}
-            </div>
-            <div class="menu-modal__item-content">
-                <h3 class="menu-modal__item-title">${product.name}</h3>
-                <p class="menu-modal__item-description">${product.description}</p>
-                <div class="menu-modal__item-ingredients">
-                    <strong>Ingredientes:</strong> ${product.ingredients.join(', ')}
-                </div>
-                <div class="menu-modal__item-footer">
-                    <div class="menu-modal__item-price">R$ ${product.price.toFixed(2).replace('.', ',')}</div>
-                    <button class="btn btn--primary" onclick="cart.addItem(${product.id})">
-                        <i class="fas fa-plus"></i> Adicionar
-                    </button>
-                </div>
-            </div>
-        `;
-        
-        return item;
-    }
-}
-
-// Order Modal Class
-class OrderModal {
-    constructor() {
-        this.modal = null;
-        this.init();
-    }
-    
-    init() {
-        this.createModal();
-        this.bindEvents();
-    }
-    
-    createModal() {
-        const modalHTML = `
-            <div class="order-modal" id="orderModal">
-                <div class="order-modal__overlay"></div>
-                <div class="order-modal__content">
-                    <div class="order-modal__header">
-                        <h2>Finalizar Pedido</h2>
-                        <button class="order-modal__close" id="orderModalClose">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                    <div class="order-modal__body">
-                        <div class="order-modal__cart" id="orderCart">
-                            <!-- Cart items will be displayed here -->
-                        </div>
-                        <div class="order-modal__form">
-                            <h3>Informações de Entrega</h3>
-                            <form id="orderForm">
-                                <div class="form__group">
-                                    <input type="text" id="orderName" name="name" placeholder="Seu nome completo" required>
-                                </div>
-                                <div class="form__group">
-                                    <input type="tel" id="orderPhone" name="phone" placeholder="Seu telefone" required>
-                                </div>
-                                <div class="form__group">
-                                    <input type="text" id="orderAddress" name="address" placeholder="Endereço completo" required>
-                                </div>
-                                <div class="form__group">
-                                    <textarea id="orderNotes" name="notes" placeholder="Observações do pedido (opcional)" rows="3"></textarea>
-                                </div>
-                                <div class="form__group">
-                                    <label>
-                                        <input type="radio" name="payment" value="cash" checked>
-                                        Dinheiro
-                                    </label>
-                                    <label>
-                                        <input type="radio" name="payment" value="card">
-                                        Cartão
-                                    </label>
-                                    <label>
-                                        <input type="radio" name="payment" value="pix">
-                                        PIX
-                                    </label>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="order-modal__footer">
-                        <div class="order-modal__total">
-                            <span>Total: R$ <span id="orderTotal">0,00</span></span>
-                        </div>
-                        <button class="btn btn--primary btn--large" id="confirmOrder">
-                            <i class="fas fa-check"></i> Confirmar Pedido
-                        </button>
-                    </div>
-                </div>
-            </div>
-        `;
-        
-        document.body.insertAdjacentHTML('beforeend', modalHTML);
-        this.modal = document.getElementById('orderModal');
-    }
-    
-    bindEvents() {
-        // Close modal
-        const closeBtn = document.getElementById('orderModalClose');
-        const overlay = this.modal.querySelector('.order-modal__overlay');
-        
-        closeBtn.addEventListener('click', () => this.close());
-        overlay.addEventListener('click', () => this.close());
-        
-        // Confirm order
-        const confirmBtn = document.getElementById('confirmOrder');
-        confirmBtn.addEventListener('click', () => this.confirmOrder());
-        
-        // Close on escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && this.modal.classList.contains('active')) {
-                this.close();
-            }
-        });
-    }
-    
-    open() {
-        this.populateCart();
-        this.modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    }
-    
-    close() {
-        this.modal.classList.remove('active');
-        document.body.style.overflow = '';
-    }
-    
-    populateCart() {
-        const cartContainer = document.getElementById('orderCart');
-        const totalElement = document.getElementById('orderTotal');
-        
-        if (cart.items.length === 0) {
-            cartContainer.innerHTML = `
-                <div class="order-modal__empty">
-                    <i class="fas fa-shopping-cart"></i>
-                    <p>Seu carrinho está vazio</p>
-                    <button class="btn btn--outline" onclick="orderModal.close(); menuModal.open();">
-                        Ver Cardápio
-                    </button>
-                </div>
-            `;
-            totalElement.textContent = '0,00';
-            return;
-        }
-        
-        cartContainer.innerHTML = '';
-        
-        cart.items.forEach(item => {
-            const cartItem = document.createElement('div');
-            cartItem.className = 'order-modal__cart-item';
-            
-            cartItem.innerHTML = `
-                <div class="order-modal__cart-item-image">
-                    <img src="${item.image}" alt="${item.name}" width="60" height="60">
-                </div>
-                <div class="order-modal__cart-item-content">
-                    <h4>${item.name}</h4>
-                    <div class="order-modal__cart-item-controls">
-                        <button class="btn btn--small" onclick="cart.updateQuantity(${item.id}, ${item.quantity - 1})">
-                            <i class="fas fa-minus"></i>
-                        </button>
-                        <span>${item.quantity}</span>
-                        <button class="btn btn--small" onclick="cart.addItem(${item.id}, 1)">
-                            <i class="fas fa-plus"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="order-modal__cart-item-price">
-                    R$ ${(item.price * item.quantity).toFixed(2).replace('.', ',')}
-                </div>
-                <button class="order-modal__cart-item-remove" onclick="cart.removeItem(${item.id}); orderModal.populateCart();">
-                    <i class="fas fa-trash"></i>
-                </button>
-            `;
-            
-            cartContainer.appendChild(cartItem);
-        });
-        
-        totalElement.textContent = cart.total.toFixed(2).replace('.', ',');
-    }
-    
-    confirmOrder() {
-        const form = document.getElementById('orderForm');
-        const formData = new FormData(form);
-        const orderData = Object.fromEntries(formData);
-        
-        if (!orderData.name || !orderData.phone || !orderData.address) {
-            alert('Por favor, preencha todos os campos obrigatórios.');
-            return;
-        }
-        
-        if (cart.items.length === 0) {
-            alert('Seu carrinho está vazio.');
-            return;
-        }
-        
-        // Create order object
-        const order = {
-            id: Date.now(),
-            items: cart.items,
-            total: cart.total,
-            customer: orderData,
-            status: 'pending',
-            createdAt: new Date().toISOString()
-        };
-        
-        // In a real application, this would be sent to the backend
-        console.log('Order placed:', order);
-        
-        // Show success message
-        this.showOrderConfirmation(order);
-        
-        // Clear cart
-        cart.clearCart();
-        
-        // Close modal
-        this.close();
-    }
-    
-    showOrderConfirmation(order) {
-        const confirmationHTML = `
-            <div class="order-confirmation" id="orderConfirmation">
-                <div class="order-confirmation__overlay"></div>
-                <div class="order-confirmation__content">
-                    <div class="order-confirmation__icon">
-                        <i class="fas fa-check-circle"></i>
-                    </div>
-                    <h2>Pedido Confirmado!</h2>
-                    <p>Seu pedido #${order.id} foi recebido com sucesso.</p>
-                    <div class="order-confirmation__details">
-                        <p><strong>Total:</strong> R$ ${order.total.toFixed(2).replace('.', ',')}</p>
-                        <p><strong>Forma de Pagamento:</strong> ${this.getPaymentMethod(order.customer.payment)}</p>
-                        <p><strong>Tempo estimado:</strong> 30-45 minutos</p>
-                    </div>
-                    <button class="btn btn--primary" onclick="this.closeConfirmation()">
-                        Fechar
-                    </button>
-                </div>
-            </div>
-        `;
-        
-        document.body.insertAdjacentHTML('beforeend', confirmationHTML);
-        
-        const confirmation = document.getElementById('orderConfirmation');
-        confirmation.classList.add('active');
-        
-        // Auto close after 5 seconds
-        setTimeout(() => {
-            if (confirmation.parentNode) {
-                confirmation.parentNode.removeChild(confirmation);
-            }
-        }, 5000);
-    }
-    
-    closeConfirmation() {
-        const confirmation = document.getElementById('orderConfirmation');
-        if (confirmation && confirmation.parentNode) {
-            confirmation.parentNode.removeChild(confirmation);
-        }
-    }
-    
-    getPaymentMethod(payment) {
-        const methods = {
-            cash: 'Dinheiro',
-            card: 'Cartão',
-            pix: 'PIX'
-        };
-        return methods[payment] || 'Não especificado';
-    }
-}
-
 // Initialize Algolia Search
 class AlgoliaSearch {
     constructor() {
@@ -739,7 +231,7 @@ class AlgoliaSearch {
                 <h3 class="search-result-item__title">${product.name}</h3>
                 <p class="search-result-item__description">${product.description}</p>
                 <div class="search-result-item__price">R$ ${product.price.toFixed(2).replace('.', ',')}</div>
-                <button class="btn btn--primary btn--small" onclick="cart.addItem(${product.id})">
+                <button class="btn btn--primary btn--small" onclick="addToCart(${product.id})">
                     Adicionar
                 </button>
             </div>
@@ -777,30 +269,16 @@ class AlgoliaSearch {
 class KingBurgerApp {
     constructor() {
         this.search = null;
-        this.cart = null;
-        this.menuModal = null;
-        this.orderModal = null;
         this.init();
     }
     
     init() {
         this.initializeSearch();
-        this.initializeCart();
-        this.initializeModals();
         this.initializeUI();
     }
     
     initializeSearch() {
         this.search = new AlgoliaSearch();
-    }
-    
-    initializeCart() {
-        this.cart = new ShoppingCart();
-    }
-    
-    initializeModals() {
-        this.menuModal = new MenuModal();
-        this.orderModal = new OrderModal();
     }
     
     initializeUI() {
@@ -869,43 +347,14 @@ class KingBurgerApp {
                 this.handleContactForm(e.target);
             });
         }
-        
-        // Menu and Order buttons
-        this.bindMenuAndOrderButtons();
-    }
-    
-    bindMenuAndOrderButtons() {
-        // View menu buttons
-        const menuButtons = [
-            document.getElementById('menuBtn'),
-            document.querySelector('.menu-actions .btn'),
-            ...document.querySelectorAll('[onclick*="menuModal"]')
-        ];
-        
-        menuButtons.forEach(btn => {
-            if (btn) {
-                btn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    this.menuModal.open();
-                });
-            }
-        });
-        
-        // Place order buttons
-        const orderButtons = [
-            document.getElementById('orderBtn'),
-            document.getElementById('heroOrderBtn'),
-            ...document.querySelectorAll('[onclick*="orderModal"]')
-        ];
-        
-        orderButtons.forEach(btn => {
-            if (btn) {
-                btn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    this.orderModal.open();
-                });
-            }
-        });
+
+        // Minha Conta (My Account) button
+        const accountBtn = document.getElementById('accountBtn');
+        if (accountBtn) {
+            accountBtn.addEventListener('click', () => {
+                alert('Funcionalidade de conta em breve!');
+            });
+        }
     }
     
     handleContactForm(form) {
@@ -921,67 +370,128 @@ class KingBurgerApp {
     }
 }
 
-// Global instances
-let cart;
-let menuModal;
-let orderModal;
+// Cart functionality
+function addToCart(productId) {
+    // In a real application, this would add to a cart state
+    console.log(`Product ${productId} added to cart`);
+    
+    // Show feedback to user
+    const button = event.target;
+    const originalText = button.textContent;
+    button.textContent = 'Adicionado!';
+    button.classList.add('btn--success');
+    
+    setTimeout(() => {
+        button.textContent = originalText;
+        button.classList.remove('btn--success');
+    }, 2000);
+}
+
+// === AUTHENTICATION LOGIC ===
+
+function showModal(id) {
+    document.getElementById(id).style.display = 'block';
+}
+function hideModal(id) {
+    document.getElementById(id).style.display = 'none';
+}
+
+function getUsers() {
+    return JSON.parse(localStorage.getItem('users') || '{}');
+}
+function setUsers(users) {
+    localStorage.setItem('users', JSON.stringify(users));
+}
+function setLoggedInUser(username) {
+    localStorage.setItem('loggedInUser', username);
+}
+function getLoggedInUser() {
+    return localStorage.getItem('loggedInUser');
+}
+function logoutUser() {
+    localStorage.removeItem('loggedInUser');
+}
+
+function updateAuthUI() {
+    const user = getLoggedInUser();
+    const welcome = document.getElementById('welcome-user');
+    const loginBtn = document.getElementById('login-btn');
+    const logoutBtn = document.getElementById('logout-btn');
+    const createAccountBtn = document.getElementById('create-account-btn');
+    if (user) {
+        welcome.textContent = `Bem-vindo, ${user}!`;
+        welcome.style.display = '';
+        loginBtn.style.display = 'none';
+        logoutBtn.style.display = '';
+        createAccountBtn.style.display = 'none';
+    } else {
+        welcome.textContent = '';
+        welcome.style.display = 'none';
+        loginBtn.style.display = '';
+        logoutBtn.style.display = 'none';
+        createAccountBtn.style.display = '';
+    }
+}
 
 // Initialize the application when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    const app = new KingBurgerApp();
-    
-    // Make instances globally available
-    cart = app.cart;
-    menuModal = app.menuModal;
-    orderModal = app.orderModal;
-    
-    // Initialize cart and modals
-    cart = new ShoppingCart();
-    menuModal = new MenuModal();
-    orderModal = new OrderModal();
-    
-    // Bind menu and order buttons
-    bindMenuAndOrderButtons();
+    new KingBurgerApp();
+    // AUTH UI
+    updateAuthUI();
+    // Modal open/close
+    document.getElementById('login-btn').onclick = () => showModal('login-modal');
+    document.getElementById('create-account-btn').onclick = () => showModal('create-account-modal');
+    document.getElementById('close-login').onclick = () => hideModal('login-modal');
+    document.getElementById('close-create-account').onclick = () => hideModal('create-account-modal');
+    // Logout
+    document.getElementById('logout-btn').onclick = () => {
+        logoutUser();
+        updateAuthUI();
+    };
+    // Login form
+    document.getElementById('login-form').onsubmit = function(e) {
+        e.preventDefault();
+        const username = document.getElementById('login-username').value.trim();
+        const password = document.getElementById('login-password').value;
+        const users = getUsers();
+        if (users[username] && users[username] === password) {
+            setLoggedInUser(username);
+            hideModal('login-modal');
+            updateAuthUI();
+            document.getElementById('login-error').textContent = '';
+            this.reset();
+        } else {
+            document.getElementById('login-error').textContent = 'Usuário ou senha incorretos.';
+        }
+    };
+    // Create account form
+    document.getElementById('create-account-form').onsubmit = function(e) {
+        e.preventDefault();
+        const username = document.getElementById('create-username').value.trim();
+        const password = document.getElementById('create-password').value;
+        const users = getUsers();
+        if (!username || !password) {
+            document.getElementById('create-account-error').textContent = 'Preencha todos os campos.';
+            return;
+        }
+        if (users[username]) {
+            document.getElementById('create-account-error').textContent = 'Usuário já existe.';
+            return;
+        }
+        users[username] = password;
+        setUsers(users);
+        setLoggedInUser(username);
+        hideModal('create-account-modal');
+        updateAuthUI();
+        document.getElementById('create-account-error').textContent = '';
+        this.reset();
+    };
+    // Close modals on outside click
+    window.onclick = function(event) {
+        if (event.target.classList.contains('modal')) {
+            event.target.style.display = 'none';
+        }
+    };
+    // On page load, update UI
+    updateAuthUI();
 });
-
-// Bind menu and order buttons
-function bindMenuAndOrderButtons() {
-    // View menu buttons
-    const menuButtons = [
-        document.getElementById('menuBtn'),
-        document.querySelector('.menu-actions .btn'),
-        ...document.querySelectorAll('[onclick*="menuModal"]')
-    ];
-    
-    menuButtons.forEach(btn => {
-        if (btn) {
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                menuModal.open();
-            });
-        }
-    });
-    
-    // Place order buttons
-    const orderButtons = [
-        document.getElementById('orderBtn'),
-        document.getElementById('heroOrderBtn'),
-        ...document.querySelectorAll('[onclick*="orderModal"]')
-    ];
-    
-    orderButtons.forEach(btn => {
-        if (btn) {
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                orderModal.open();
-            });
-        }
-    });
-}
-
-// Legacy function for backward compatibility
-function addToCart(productId) {
-    if (cart) {
-        cart.addItem(productId);
-    }
-}
