@@ -370,21 +370,64 @@ class KingBurgerApp {
     }
 }
 
-// Cart functionality
+// === CART LOGIC ===
+function getCart() {
+    return JSON.parse(localStorage.getItem('cart') || '[]');
+}
+function setCart(cart) {
+    localStorage.setItem('cart', JSON.stringify(cart));
+}
+function clearCart() {
+    localStorage.removeItem('cart');
+}
+
 function addToCart(productId) {
-    // In a real application, this would add to a cart state
-    console.log(`Product ${productId} added to cart`);
-    
+    const cart = getCart();
+    const product = products.find(p => p.id === productId);
+    if (!product) return;
+    const existing = cart.find(item => item.id === productId);
+    if (existing) {
+        existing.qty += 1;
+    } else {
+        cart.push({ id: productId, name: product.name, price: product.price, qty: 1 });
+    }
+    setCart(cart);
     // Show feedback to user
     const button = event.target;
     const originalText = button.textContent;
     button.textContent = 'Adicionado!';
     button.classList.add('btn--success');
-    
     setTimeout(() => {
         button.textContent = originalText;
         button.classList.remove('btn--success');
     }, 2000);
+}
+
+function renderCart() {
+    const cart = getCart();
+    const cartItems = document.getElementById('cart-items');
+    const cartTotal = document.getElementById('cart-total');
+    const orderSuccess = document.getElementById('order-success');
+    orderSuccess.textContent = '';
+    if (cart.length === 0) {
+        cartItems.innerHTML = '<p>Seu carrinho está vazio.</p>';
+        cartTotal.textContent = '';
+        return;
+    }
+    let total = 0;
+    cartItems.innerHTML = '<ul style="padding-left:20px;">' + cart.map(item => {
+        total += item.price * item.qty;
+        return `<li>${item.name} x${item.qty} - R$ ${(item.price * item.qty).toFixed(2).replace('.', ',')}</li>`;
+    }).join('') + '</ul>';
+    cartTotal.textContent = `Total: R$ ${total.toFixed(2).replace('.', ',')}`;
+}
+
+function showCartModal() {
+    renderCart();
+    document.getElementById('cart-modal').style.display = 'block';
+}
+function hideCartModal() {
+    document.getElementById('cart-modal').style.display = 'none';
 }
 
 // === AUTHENTICATION LOGIC ===
@@ -447,6 +490,17 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('logout-btn').onclick = () => {
         logoutUser();
         updateAuthUI();
+    };
+    // Cart modal open/close
+    document.getElementById('view-cart-btn').onclick = showCartModal;
+    document.getElementById('close-cart').onclick = hideCartModal;
+    // Place order
+    document.getElementById('place-order-btn').onclick = function() {
+        const cart = getCart();
+        if (cart.length === 0) return;
+        clearCart();
+        renderCart();
+        document.getElementById('order-success').textContent = 'Pedido realizado com sucesso!';
     };
     // Login form
     document.getElementById('login-form').onsubmit = function(e) {
