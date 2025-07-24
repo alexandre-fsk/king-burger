@@ -499,6 +499,30 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('orderBtn'))
         document.getElementById('orderBtn').onclick = openCart;
     document.getElementById('close-cart').onclick = hideCartModal;
+    // My Account modal open/close
+    const accountBtn = document.getElementById('accountBtn');
+    const accountModal = document.getElementById('account-modal');
+    const closeAccount = document.getElementById('close-account');
+    const accountInfo = document.getElementById('account-info');
+    const logoutBtnModal = document.getElementById('logout-btn-modal');
+    if (accountBtn) {
+        accountBtn.onclick = function() {
+            const user = getLoggedInUser();
+            if (user) {
+                accountInfo.innerHTML = `<p><strong>Usuário:</strong> ${user}</p>`;
+                accountModal.style.display = 'block';
+            } else {
+                accountInfo.innerHTML = '<p>Você não está logado.</p>';
+                accountModal.style.display = 'block';
+            }
+        };
+    }
+    if (closeAccount) closeAccount.onclick = () => accountModal.style.display = 'none';
+    if (logoutBtnModal) logoutBtnModal.onclick = function() {
+        logoutUser();
+        updateAuthUI();
+        accountModal.style.display = 'none';
+    };
     // Place order
     document.getElementById('place-order-btn').onclick = function() {
         const cart = getCart();
