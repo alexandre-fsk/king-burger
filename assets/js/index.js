@@ -392,6 +392,7 @@ function addToCart(productId) {
         cart.push({ id: productId, name: product.name, price: product.price, qty: 1 });
     }
     setCart(cart);
+    renderCart(); // Always update cart display
     // Show feedback to user
     const button = event.target;
     const originalText = button.textContent;
@@ -492,7 +493,11 @@ document.addEventListener('DOMContentLoaded', () => {
         updateAuthUI();
     };
     // Cart modal open/close
-    document.getElementById('view-cart-btn').onclick = showCartModal;
+    const openCart = showCartModal;
+    if (document.getElementById('view-cart-btn'))
+        document.getElementById('view-cart-btn').onclick = openCart;
+    if (document.getElementById('orderBtn'))
+        document.getElementById('orderBtn').onclick = openCart;
     document.getElementById('close-cart').onclick = hideCartModal;
     // Place order
     document.getElementById('place-order-btn').onclick = function() {
